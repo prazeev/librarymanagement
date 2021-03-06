@@ -20,3 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('transactions');
+Route::get('/books/{id}', [App\Http\Controllers\BookController::class, 'details'])->name('book.details');
+Route::get('/books/return/{id}', [App\Http\Controllers\TransactionController::class, 'back'])->name('book.return');
+Route::get('/books/borrow/{id}', [App\Http\Controllers\TransactionController::class, 'borrow'])->name('book.borrow');

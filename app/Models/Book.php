@@ -17,4 +17,10 @@ class Book extends Model
     public function courses() {
       return $this->belongsToMany(Course::class,'book_courses','book_id','course_id');
     }
+    public function transactions() {
+      return $this->belongsToMany(Transaction::class,'transaction_books','book_id','transaction_id');
+    }
+    public function getInStockAttribute() {
+      return $this->quantity - $this->transactions()->where('type','=','borrow')->get()->count() + $this->transactions()->where('type','=','return')->get()->count();
+    }
 }

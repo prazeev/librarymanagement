@@ -9,6 +9,6 @@ class Course extends Model
 {
     use HasFactory;
   public function books() {
-    return $this->belongsToMany(Course::class,'book_courses','course_id','book_id');
+    return $this->belongsToMany(Course::class,'book_courses','book_id','course_id');
   }
 }

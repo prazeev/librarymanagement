@@ -111,6 +111,9 @@ class BookController extends AdminController
           $tab->add(__('Other details'), $others->render());
           return $tab->render();
         });
+        $grid->column('in_stock', __('Available in Library'))->display(function () {
+          return ($this->in_stock / $this->quantity) * 100;
+        })->progress();
         $grid->column('author', __('Author'));
 //        $grid->column('qr',__('QR Code'))->display(function () {
 //          return QrCode::size(50)->generate('codingdriver.com');
