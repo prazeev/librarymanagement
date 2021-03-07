@@ -4,14 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Transaction;
+use App\Models\TransactionToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class TransactionController extends Controller {
   public function __construct() {
     $this->middleware(['auth','verified']);
   }
   public function scanCode($book_id) {
+    $token = \request()->has('token') ? \request()->token : '';
+    if(empty($token)) {
+      $token = Str::random(40);
+      $token_transaction = new TransactionToken();
+      $token_transaction->token = $token;
+      $token_transaction->save();
+      redirect(route('book.transaction',[
+        'id' => $book_id,
+        'token' => $token
+      ]));
+    } else {
+      $valid_token = TransactionToken::where('token','=', $token)->where('status','=', true)->first();
+      if(!$valid_token) {
+        return "<h1>Invalid Token</h1>";
+      }
+      $valid_token->status = false;
+      $valid_token->save();
+    }
+
     $book = Book::find($book_id);
     $student = auth()->user();
     #1. Check if student have already borrowed
