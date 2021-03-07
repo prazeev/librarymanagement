@@ -138,9 +138,11 @@ class TransactionController extends AdminController
           }
           $selected_books = array_values($form->books);
           foreach ($selected_books as $selected_book) {
-            $selected_book = Book::where('id','=',$selected_book)->first();
-            if(array_key_exists($selected_book->id, $out_of_stocks)) {
-              throw new \Exception($selected_book->title.' is in out of stock.');
+            $selected_book = Book::find($selected_book);
+            if($selected_book) {
+              if(array_key_exists($selected_book->id, $out_of_stocks)) {
+                throw new \Exception($selected_book->title.' is in out of stock.');
+              }
             }
           }
         });

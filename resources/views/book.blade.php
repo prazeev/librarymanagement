@@ -6,6 +6,11 @@
         <div class="col-md-4">
             <table class="table table-striped">
                 <tr>
+                    <td colspan="2">
+                        <center>{!! QrCode::size(300)->generate(route('book.transaction',['id' => $book->id])) !!}</center>
+                    </td>
+                </tr>
+                <tr>
                     <td>
                         <b>Date added</b>
                     </td>
@@ -91,11 +96,42 @@
         </div>
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $book->title }}</div>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-9">
+                            {{ $book->title }}
+                        </div>
+                        <div class="col-md-3">
+                            @if($book->in_stock > 0)
+                                <a href="{{route('book.borrow',['id' => $book->id])}}">Borrow</a>
+                            @endif
+                            @if(($book->transactions()->where('type','=','borrow')->where('user_id','=', auth()->user()->id)->get()->count() - $book->transactions()->where('type','=','return')->where('user_id','=', auth()->user()->id)->get()->count()) > 0)
+                                    <a href="{{route('book.return',['id' => $book->id])}}">Return</a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
                     <center><img src="{{$cover}}" alt="{{ $book->title }}" class="img img-responsive img-bordered"></center>
                     <hr>
                     <p>{{$book->description}}</p>
+                    <hr>
+                    <p>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            {{__("Attachments")}}
+                        </a>
+                    </p>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            <ul class="list-group">
+                                @foreach($book->attachments as $attachment)
+                                    <li class="list-group-item">
+                                        <a href="{{\Illuminate\Support\Facades\Storage::url($attachment->path)}}" target="_blank">{{$attachment->path}}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

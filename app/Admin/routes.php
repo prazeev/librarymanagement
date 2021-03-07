@@ -15,6 +15,7 @@ Route::group([
     $router->get('/api/users', 'ApiController@users');
     $router->get('/api/departments', 'ApiController@departments');
     $router->get('/api/books', 'ApiController@books');
+    $router->post('books/import', 'BookController@bulkImport');
     $router->resource('books', BookController::class);
     $router->resource('media-types', MediaTypeController::class);
     $router->resource('courses', CourseController::class);

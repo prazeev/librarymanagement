@@ -22,5 +22,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('transactions');
 Route::get('/books/{id}', [App\Http\Controllers\BookController::class, 'details'])->name('book.details');
+Route::get('/transaction/book/{id}', [App\Http\Controllers\TransactionController::class, 'scanCode'])->name('book.transaction');
 Route::get('/books/return/{id}', [App\Http\Controllers\TransactionController::class, 'back'])->name('book.return');
 Route::get('/books/borrow/{id}', [App\Http\Controllers\TransactionController::class, 'borrow'])->name('book.borrow');

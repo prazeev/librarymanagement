@@ -2,6 +2,10 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\Book\PrintQrCode;
+use App\Admin\Extensions\Tools\ImportBooks;
+use App\Exports\BulkExportBooks;
+use App\Imports\BulkImportBooks;
 use App\Models\Book;
 use App\Models\Course;
 use App\Models\MediaType;
@@ -9,12 +13,11 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-use Encore\Admin\Widgets\Box;
 use Encore\Admin\Widgets\Collapse;
-use Encore\Admin\Widgets\InfoBox;
 use Encore\Admin\Widgets\Tab;
 use Encore\Admin\Widgets\Table;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BookController extends AdminController
@@ -33,8 +36,13 @@ class BookController extends AdminController
      */
     protected function grid() {
       $grid = new Grid(new Book());
+      $grid->tools(function ($tools) {
+        $tools->append(new ImportBooks);
+      });
+      $grid->exporter(new BulkExportBooks($grid));
       $grid->actions(function ($actions) {
         $actions->disableView();
+        $actions->add(new PrintQrCode);
       });
       $grid->filter(function($filter){
         $filter->disableIdFilter();
@@ -53,7 +61,7 @@ class BookController extends AdminController
 
       $grid->column('id', __('Id'));
         $grid->column('isbn', __('ISBN'))->prefix('#')->modal(__('QR Code'), function ($model) {
-          return "<center>".QrCode::size(300)->generate('codingdriver.com').'</center>';
+          return "<center>".QrCode::size(300)->generate(route('book.transaction',['id' => $model->id])).'</center>';
         });
         $grid->column('medias', __('Media types'))->display(function ($medias) {
           $medias = array_map(function ($media) {
@@ -181,5 +189,21 @@ class BookController extends AdminController
           $form->multipleFile('attachments',__('Attachments'))->pathColumn('path')->removable();
         });
         return $form;
+    }
+
+    public function bulkImport() {
+      try {
+        Excel::import(new BulkImportBooks, request()->file('file'));
+      } catch (\Exception $exception) {
+        admin_toastr("Some error occurred. ".$exception->getMessage(), "error");
+        return [
+          'error' => false,
+          'message' => $exception->getMessage()
+        ];
+      }
+      return [
+        'error' => false,
+        'message' => __("Successfully imported books.")
+      ];
     }
 }
