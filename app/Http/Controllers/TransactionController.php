@@ -20,7 +20,7 @@ class TransactionController extends Controller {
       $token_transaction = new TransactionToken();
       $token_transaction->token = $token;
       $token_transaction->save();
-      redirect(route('book.transaction',[
+      return redirect(route('book.transaction',[
         'id' => $book_id,
         'token' => $token
       ]));
