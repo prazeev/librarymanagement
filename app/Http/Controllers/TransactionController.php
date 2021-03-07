@@ -24,17 +24,18 @@ class TransactionController extends Controller {
         'type' => 'return',
         'expected_closure' => now()
       ]);
-      Session::flash('status',__($book->title.' successfully returned.'));
+      return "<H1>Successfully Returned ".$book->title."</H1>";
     } else if ($in_stock > 0) {
+      $exp_time = now()->addDays(config('config.default_book_rent_days', 0));
       $book->transactions()->create([
         'resolved' => false,
         'user_id' => $student->id,
         'type' => 'borrow',
-        'expected_closure' => now()->addDays(config('config.default_book_rent_days', 0))
+        'expected_closure' => $exp_time
       ]);
-      Session::flash('status',__($book->title.' successfully borrowed.'));
+      return "<H1>Successfully Borrowed ".$book->title.'. You should return this book at '.$exp_time.'</H1>';
     } else {
-      Session::flash('error',__($book->title.' is out of stock.'));
+      return "<H1>".$book->title." IS OUT OF STOCK</H1>";
     }
     return back();
   }
