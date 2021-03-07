@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class TransactionController extends Controller {
-
+  public function __construct() {
+    $this->middleware(['auth','verified']);
+  }
   public function scanCode($book_id) {
     $book = Book::find($book_id);
     $student = auth()->user();

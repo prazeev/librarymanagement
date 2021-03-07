@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller {
-    public function details($id) {
+  public function __construct() {
+    $this->middleware(['auth','verified']);
+  }
+
+  public function details($id) {
       $book = Book::find($id);
       $data = [
         'book' => $book,
