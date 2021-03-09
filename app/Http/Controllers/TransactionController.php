@@ -42,7 +42,7 @@ class TransactionController extends Controller {
     $in_stock = $book->in_stock;
     $has_borrowed_previously = ($book->transactions()->where('user_id','=', $student->id)->where('type','=','borrow')->get()->count() - $book->transactions()->where('user_id','=', $student->id)->where('type','=','return')->get()->count()) > 0;
     if($has_borrowed_previously) {
-      $last_transaction = $book->transactions()->where('user_id','=', $student->id)->last();
+      $last_transaction = $book->transactions()->where('user_id','=', $student->id)->orderBy('id','DESC')->first();
       if(!$last_transaction) {
         $book->transactions()->create([
           'resolved' => false,
