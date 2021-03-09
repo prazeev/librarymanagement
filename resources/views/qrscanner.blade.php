@@ -58,13 +58,9 @@
                                 }, 2000);
                             }
                         },
-                        error: function (data) {
-                            console.log(data);
-                            $("#error").show().html("Something went wrong.");
-                            let timeout = setTimeout(function () {
-                                $("#error").hide();
-                                clearTimeout(timeout);
-                            }, 5000);
+                        error: function(xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err);
                         }
                     });
                 }
