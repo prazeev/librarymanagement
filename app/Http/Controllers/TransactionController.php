@@ -42,8 +42,8 @@ class TransactionController extends Controller {
     $in_stock = $book->in_stock;
     $has_borrowed_previously = ($book->transactions()->where('user_id','=', $student->id)->where('type','=','borrow')->get()->count() - $book->transactions()->where('user_id','=', $student->id)->where('type','=','return')->get()->count()) > 0;
     if($has_borrowed_previously) {
-      $last_borrowed = $book->transactions()->where('user_id','=', $student->id)->where('type','=','borrow')->first();
-      if(!$last_borrowed) {
+      $last_transaction = $book->transactions()->where('user_id','=', $student->id)->first();
+      if(!$last_transaction) {
         $book->transactions()->create([
           'resolved' => false,
           'user_id' => $student->id,
@@ -51,7 +51,7 @@ class TransactionController extends Controller {
           'expected_closure' => now()
         ]);
       } else {
-        $last_transaction_on = Carbon::parse($last_borrowed->created_at);
+        $last_transaction_on = Carbon::parse($last_transaction->created_at);
         if($last_transaction_on->isAfter(now()->subSeconds(config('config.minimum_no_transaction_sec', 0)))) {
           return [
             'error' => true,
