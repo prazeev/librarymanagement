@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Actions\Student\ChangePassword;
+use App\Admin\Actions\Student\PrintStudentQrCode;
 use App\Models\Department;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -11,7 +12,9 @@ use Encore\Admin\Show;
 use \App\Models\User;
 use Encore\Admin\Widgets\Tab;
 use Encore\Admin\Widgets\Table;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class StudentController extends AdminController
 {
@@ -34,6 +37,7 @@ class StudentController extends AdminController
       $grid->actions(function ($actions) {
         $actions->disableView();
         $actions->add(new ChangePassword);
+        $actions->add(new PrintStudentQrCode);
       });
       $grid->filter(function ($filter) {
         $filter->disableIdFilter();
@@ -42,7 +46,9 @@ class StudentController extends AdminController
 
         $grid->column('id', __('ID'));
         $grid->column('name', __('Name'))->editable();
-        $grid->column('email', __('Email'))->editable();
+        $grid->column('email', __('Email'))->modal(__('QR Code'), function ($model) {
+          return "<center>".QrCode::size(300)->generate(Crypt::encryptString($model->email)).'</center>';
+        });
         $grid->column('departments', __('Departments'))->display(function ($departments) {
           $departments = array_map(function ($department) {
             return "<label class='label label-success'>{$department['name']}</label>";

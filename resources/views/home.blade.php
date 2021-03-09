@@ -35,7 +35,6 @@
                             <th>ISBN</th>
                             <th>Author</th>
                             <th>Status</th>
-                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -44,21 +43,7 @@
                                 <td>{!! '<a href="'.route('book.details',['id' => $book->id]).'">'.$book->title.'</a>, ' !!}</td>
                                 <td>{{$book->isbn}}</td>
                                 <td>{{$book->author}}</td>
-                                <td>{!! $book->in_stock > 0 ? 'Available' : 'Out of Stock' !!}</td>
-                                <td>
-                                    <div class="row">
-                                        @if($book->in_stock > 0)
-                                        <div class="col">
-                                            <a href="{{route('book.borrow',['id' => $book->id])}}">Borrow</a>
-                                        </div>
-                                        @endif
-                                        @if(($book->transactions()->where('type','=','borrow')->where('user_id','=', auth()->user()->id)->get()->count() - $book->transactions()->where('type','=','return')->where('user_id','=', auth()->user()->id)->get()->count()) > 0)
-                                        <div class="col">
-                                            <a href="{{route('book.return',['id' => $book->id])}}">Return</a>
-                                        </div>
-                                        @endif
-                                    </div>
-                                </td>
+                                <td>{!! $book->in_stock > 0 ? $book->in_stock.'/'.$book->quantity.' Available' : 'Out of Stock' !!}</td>
                             </tr>
                         @endforeach
                         @if(count($books) == 0)

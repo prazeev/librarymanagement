@@ -16,6 +16,7 @@ use Encore\Admin\Show;
 use Encore\Admin\Widgets\Collapse;
 use Encore\Admin\Widgets\Tab;
 use Encore\Admin\Widgets\Table;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -61,7 +62,7 @@ class BookController extends AdminController
 
       $grid->column('id', __('Id'));
         $grid->column('isbn', __('ISBN'))->prefix('#')->modal(__('QR Code'), function ($model) {
-          return "<center>".QrCode::size(300)->generate(route('book.transaction',['id' => $model->id])).'</center>';
+          return "<center>".QrCode::size(300)->generate(Crypt::encryptString("book-".$model->id)).'</center>';
         });
         $grid->column('medias', __('Media types'))->display(function ($medias) {
           $medias = array_map(function ($media) {

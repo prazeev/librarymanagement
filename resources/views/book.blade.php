@@ -102,12 +102,7 @@
                             {{ $book->title }}
                         </div>
                         <div class="col-md-3">
-                            @if($book->in_stock > 0)
-                                <a href="{{route('book.borrow',['id' => $book->id])}}">Borrow</a>
-                            @endif
-                            @if(($book->transactions()->where('type','=','borrow')->where('user_id','=', auth()->user()->id)->get()->count() - $book->transactions()->where('type','=','return')->where('user_id','=', auth()->user()->id)->get()->count()) > 0)
-                                    <a href="{{route('book.return',['id' => $book->id])}}">Return</a>
-                            @endif
+
                         </div>
                     </div>
                 </div>

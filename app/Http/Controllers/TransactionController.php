@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Transaction;
 use App\Models\TransactionToken;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -14,38 +16,59 @@ class TransactionController extends Controller {
     $this->middleware(['auth','verified']);
   }
   public function scanCode($book_id) {
-    $token = \request()->has('token') ? \request()->token : '';
-    if(empty($token)) {
-      $token = Str::random(40);
-      $token_transaction = new TransactionToken();
-      $token_transaction->token = $token;
-      $token_transaction->save();
-      return redirect(route('book.transaction',[
-        'id' => $book_id,
-        'token' => $token
-      ]));
-    } else {
-      $valid_token = TransactionToken::where('token','=', $token)->where('status','=', true)->first();
-      if(!$valid_token) {
-        return "<h1>Invalid Token</h1>";
+    try {
+      $details = Crypt::decryptString($book_id);
+      $temp = explode("-", $details);
+      if(count($temp) == 2 && $temp[0] == 'book') {
+        $book_id = $temp[1];
+      } else {
+        throw new \Exception("Invalid book ID");
       }
-      $valid_token->status = false;
-      $valid_token->save();
+    } catch (\Exception $exception) {
+      return [
+        'error' => true,
+        'message' => $exception->getMessage(),
+      ];
     }
-
-    $book = Book::find($book_id);
+    $book = Book::where('id','=', $book_id)->first();
+    if(!$book) {
+      return [
+        'error' => true,
+        'message' => 'Invalid Token',
+      ];
+    }
     $student = auth()->user();
     #1. Check if student have already borrowed
     $in_stock = $book->in_stock;
     $has_borrowed_previously = ($book->transactions()->where('user_id','=', $student->id)->where('type','=','borrow')->get()->count() - $book->transactions()->where('user_id','=', $student->id)->where('type','=','return')->get()->count()) > 0;
     if($has_borrowed_previously) {
-      $book->transactions()->create([
-        'resolved' => false,
-        'user_id' => $student->id,
-        'type' => 'return',
-        'expected_closure' => now()
-      ]);
-      return "<H1>Successfully Returned ".$book->title."</H1>";
+      $last_borrowed = $book->transactions()->where('user_id','=', $student->id)->where('type','=','borrow')->first();
+      if(!$last_borrowed) {
+        $book->transactions()->create([
+          'resolved' => false,
+          'user_id' => $student->id,
+          'type' => 'return',
+          'expected_closure' => now()
+        ]);
+      } else {
+        $last_transaction_on = Carbon::parse($last_borrowed->created_at);
+        if($last_transaction_on->isAfter(now()->subSeconds(config('config.minimum_no_transaction_sec', 0)))) {
+          return [
+            'error' => true,
+            'message' => 'You cannot make transaction so fast.',
+          ];
+        }
+        $book->transactions()->create([
+          'resolved' => false,
+          'user_id' => $student->id,
+          'type' => 'return',
+          'expected_closure' => now()
+        ]);
+      }
+      return [
+        'error' => false,
+        'message' => 'Successfully Returned '.$book->title,
+      ];
     } else if ($in_stock > 0) {
       $exp_time = now()->addDays(config('config.default_book_rent_days', 0));
       $book->transactions()->create([
@@ -54,9 +77,15 @@ class TransactionController extends Controller {
         'type' => 'borrow',
         'expected_closure' => $exp_time
       ]);
-      return "<H1>Successfully Borrowed ".$book->title.'. You should return this book at '.$exp_time.'</H1>';
+      return [
+        'error' => false,
+        'message' => "Successfully Borrowed ".$book->title.'. You should return this book at '.$exp_time,
+      ];
     } else {
-      return "<H1>".$book->title." IS OUT OF STOCK</H1>";
+      return [
+        'error' => false,
+        'message' => "".$book->title.' IS OUT OF STOCK',
+      ];
     }
     return back();
   }

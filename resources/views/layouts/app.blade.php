@@ -18,6 +18,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @yield('css')
 </head>
 <body>
     <div id="app">
@@ -30,6 +32,11 @@
                 <ul class="nav">
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('transactions')}}">My Transactions</a>
+                    </li>
+                </ul>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('qr.scanner')}}">Borrow/Return Book</a>
                     </li>
                 </ul>
                 @endauth
@@ -86,5 +93,6 @@
             @yield('content')
         </main>
     </div>
+    @yield('js')
 </body>
 </html>
