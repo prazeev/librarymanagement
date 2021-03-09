@@ -49,13 +49,13 @@
                                 let timeout = setTimeout(function () {
                                     $("#error").hide();
                                     clearTimeout(timeout);
-                                }, 5000);
+                                }, 10000);
                             } else {
                                 $("#success").show().html(data.message);
                                 let interval = setTimeout(function () {
                                     clearTimeout(interval);
                                     $("#success").hide();
-                                }, 2000);
+                                }, 10000);
                             }
                         },
                         error: function(xhr, status, error) {

@@ -7,7 +7,7 @@
             <table class="table table-striped">
                 <tr>
                     <td colspan="2">
-                        <center>{!! QrCode::size(300)->generate(route('book.transaction',['id' => $book->id])) !!}</center>
+                        <center>{!! QrCode::size(300)->generate(\Illuminate\Support\Facades\Crypt::encryptString("book-".$book->id)) !!}</center>
                     </td>
                 </tr>
                 <tr>
