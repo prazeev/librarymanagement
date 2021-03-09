@@ -58,7 +58,8 @@
                                 }, 2000);
                             }
                         },
-                        error: function () {
+                        error: function (data) {
+                            console.log(data);
                             $("#error").show().html("Something went wrong.");
                             let timeout = setTimeout(function () {
                                 $("#error").hide();
