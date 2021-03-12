@@ -9,12 +9,12 @@
     <style>
         #card {
             background-color: #ffffff;
-            height: 250px;
-            width: 500px;
+            height: 400px;
+            width: 800px;
         }
         img {
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 200px;
             object-fit: contain;
         }
         #card-header {
@@ -87,7 +87,7 @@
         <div id="card-body">
             <div id="card-content">
                 <div id="qr-holder">
-                    {!! QrCode::size(150)->generate(\Illuminate\Support\Facades\Crypt::encryptString($student->email)) !!}
+                    {!! QrCode::size(200)->generate(\Illuminate\Support\Facades\Crypt::encryptString($student->email)) !!}
                 </div>
                 <div id="student-details">
                     <div id="student-name">{{$student->name}}</div>
