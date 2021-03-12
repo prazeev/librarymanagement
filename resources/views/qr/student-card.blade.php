@@ -64,6 +64,10 @@
         #card-content #student-details .student-other .student-departments {
             display: flex;
         }
+        #card-content #student-details .student-other .student-other-email {
+            font-size: 10px;
+            color: #000000;
+        }
         #card-content #student-details .student-other .student-departments .student-department {
             background-color: green;
             color: #ffffff;
@@ -88,7 +92,7 @@
                 <div id="student-details">
                     <div id="student-name">{{$student->name}}</div>
                     <div class="student-other">ID: #{{$student->id}}</div>
-                    <div class="student-other"><i>{{$student->email}}</i></div>
+                    <div class="student-other student-other-email"><i>{{$student->email}}</i></div>
                     <div class="student-other">
                         <div class="student-departments">
                             @foreach($student->departments as $department)
