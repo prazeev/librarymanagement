@@ -2,6 +2,7 @@
 
 namespace App\Admin\Actions\Student;
 
+use Anam\PhantomMagick\Converter;
 use Encore\Admin\Actions\RowAction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
@@ -16,10 +17,7 @@ class PrintStudentQrCode extends RowAction
       $this->confirm('Are you sure to print this QR code?');
     }
     public function handle(Model $model){
-      $qr_code = QrCode::size(300)->generate(Crypt::encryptString($model->email));
-      Storage::put('public/qrcodes/users/'.$model->id.'.svg', $qr_code);
-      $url = Storage::url('public/qrcodes/users/'.$model->id.'.svg');
-      return $this->response()->success('QR Code downloading....')->refresh()->download($url);
+      return $this->response()->success('ID card is downloading....')->refresh()->download(route('student.card',['id' => $model->id]));
     }
 
 }

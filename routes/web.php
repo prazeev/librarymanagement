@@ -21,6 +21,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/display', [App\Http\Controllers\DisplayController::class, 'render'])->name('front.display');
+Route::get('/studentId/{id}', [App\Http\Controllers\DisplayController::class, 'studentCard'])->name('student.card');
 Route::get('/loginBarcode/{code}', [App\Http\Controllers\DisplayController::class, 'loginBarcode'])->name('qr.login');
 Route::get('/transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('transactions');
 Route::get('/books/{id}', [App\Http\Controllers\BookController::class, 'details'])->name('book.details');

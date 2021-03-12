@@ -4,8 +4,109 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31e37e2fb77ce39fdc6a137fb9f99f74",
+    "content-hash": "2a46d501dadc449ddbf7a44d491f5354",
     "packages": [
+        {
+            "name": "anam/phantomjs-linux-x86-binary",
+            "version": "v2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/anam-hossain/phantomjs-linux-x86-binary.git",
+                "reference": "cb90cd0e7bd4ad34f52e6834783b1c5adae15014"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/anam-hossain/phantomjs-linux-x86-binary/zipball/cb90cd0e7bd4ad34f52e6834783b1c5adae15014",
+                "reference": "cb90cd0e7bd4ad34f52e6834783b1c5adae15014",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/phantomjs"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Anam\\PhantomLinux\\": "/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Anam hossain",
+                    "email": "enam33@gmail.com"
+                }
+            ],
+            "description": "PhantomJS static linked binary for 64 bit linux systems. Most of Linux distributions are supported including Ubuntu, Debian, Fedora and CentOS.",
+            "homepage": "http://phantomjs.org/download.html",
+            "keywords": [
+                "binary",
+                "phantomjs",
+                "phantomjs binary"
+            ],
+            "time": "2016-04-05T05:24:48+00:00"
+        },
+        {
+            "name": "anam/phantommagick",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/anam-hossain/phantommagick.git",
+                "reference": "7da1cb92198717e5aba7a4a8c9b8eb61c3ae12eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/anam-hossain/phantommagick/zipball/7da1cb92198717e5aba7a4a8c9b8eb61c3ae12eb",
+                "reference": "7da1cb92198717e5aba7a4a8c9b8eb61c3ae12eb",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "~1.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Anam\\PhantomMagick\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anam hossain",
+                    "email": "enam33@gmail.com"
+                }
+            ],
+            "description": "PhantomMagick provides a simple API to ease the process of converting HTML to PDF or images",
+            "homepage": "https://github.com/anam-hossain/phantommagick",
+            "keywords": [
+                "Html 2 jpg",
+                "Html 2 pdf",
+                "Laravel pdf",
+                "Phantom",
+                "Screen capture",
+                "converter",
+                "html to image",
+                "html to pdf",
+                "html to png",
+                "image converter",
+                "invoice",
+                "laravel",
+                "pdf",
+                "pdf converter",
+                "phantomjs"
+            ],
+            "time": "2017-08-07T09:06:12+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.0.2",
@@ -1344,6 +1445,76 @@
                 "url"
             ],
             "time": "2020-09-30T07:37:11+00:00"
+        },
+        {
+            "name": "intervention/image",
+            "version": "2.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/image.git",
+                "reference": "abbf18d5ab8367f96b3205ca3c89fb2fa598c69e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/abbf18d5ab8367f96b3205ca3c89fb2fa598c69e",
+                "reference": "abbf18d5ab8367f96b3205ca3c89fb2fa598c69e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "guzzlehttp/psr7": "~1.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.2",
+                "phpunit/phpunit": "^4.8 || ^5.7"
+            },
+            "suggest": {
+                "ext-gd": "to use GD library based image processing.",
+                "ext-imagick": "to use Imagick based image processing.",
+                "intervention/imagecache": "Caching extension for the Intervention Image library"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Intervention\\Image\\ImageServiceProvider"
+                    ],
+                    "aliases": {
+                        "Image": "Intervention\\Image\\Facades\\Image"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\Image\\": "src/Intervention/Image"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@olivervogel.com",
+                    "homepage": "http://olivervogel.com/"
+                }
+            ],
+            "description": "Image handling and manipulation library with support for Laravel integration",
+            "homepage": "http://image.intervention.io/",
+            "keywords": [
+                "gd",
+                "image",
+                "imagick",
+                "laravel",
+                "thumbnail",
+                "watermark"
+            ],
+            "time": "2019-11-02T09:15:47+00:00"
         },
         {
             "name": "laravel/framework",

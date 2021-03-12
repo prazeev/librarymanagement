@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
@@ -11,10 +12,6 @@ class DisplayController extends Controller {
       $email = Crypt::decryptString($code);
     } catch (\Exception $exception) {
       $email = $code;
-//      return [
-//        'error' => true,
-//        'message' => $exception->getMessage()
-//      ];
     }
     $user = \App\Models\User::where('email','=', $email)->first();
     if(!$user) {
@@ -37,7 +34,14 @@ class DisplayController extends Controller {
     }
 
   }
-    public function render() {
-      return view('display');
-    }
+  public function render() {
+    return view('display');
+  }
+
+  public function studentCard($id) {
+    $data = [
+      'student' => User::find($id)
+    ];
+    return view('qr.student-card')->with($data);
+  }
 }

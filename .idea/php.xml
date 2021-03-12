@@ -133,6 +133,9 @@
       <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables" />
       <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-buttons" />
       <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-editor" />
+      <path value="$PROJECT_DIR$/vendor/intervention/image" />
+      <path value="$PROJECT_DIR$/vendor/anam/phantommagick" />
+      <path value="$PROJECT_DIR$/vendor/anam/phantomjs-linux-x86-binary" />
     </include_path>
   </component>
   <component name="PhpUnit">
