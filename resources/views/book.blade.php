@@ -72,7 +72,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <b>Courses</b>
+                        <b>Categories</b>
                     </td>
                     <td>
                         <ul class="list-group">

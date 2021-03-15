@@ -2,12 +2,8 @@
 
 namespace App\Admin\Actions\Student;
 
-use Anam\PhantomMagick\Converter;
 use Encore\Admin\Actions\RowAction;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PrintStudentQrCode extends RowAction
 {

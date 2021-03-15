@@ -57,7 +57,7 @@ class BookController extends AdminController
           $query->whereHas('courses', function ($query) {
             $query->where('course', 'like', "%{$this->input}%");
           });
-        }, __('Course'));
+        }, __('Category'));
       });
 
       $grid->column('id', __('Id'));
@@ -127,7 +127,7 @@ class BookController extends AdminController
 //        $grid->column('qr',__('QR Code'))->display(function () {
 //          return QrCode::size(50)->generate('codingdriver.com');
 //        });
-        $grid->column('courses', __('Courses'))->display(function ($courses) {
+        $grid->column('courses', __('Categories'))->display(function ($courses) {
           $courses = array_map(function ($course) {
             return "<span class='label label-success'>{$course['course']}</span>";
           }, $courses);
@@ -183,7 +183,7 @@ class BookController extends AdminController
           $form->number('quantity', __('Quantity in stock'))->default(1);
         })->tab(__('Relations'), function ($form) {
           $form->multipleSelect('medias',__('Media Type'))->options(MediaType::all()->pluck('title','id'))->required();
-          $form->multipleSelect('courses', __('Courses'))->options(Course::all()->pluck('course','id'))->required();
+          $form->multipleSelect('courses', __('Categories'))->options(Course::all()->pluck('course','id'))->required();
           $form->tags('keywords',__('Keywords'));
         })->tab(__('Attachments'), function ($form) {
           $form->image('book_cover', __('Book cover'));

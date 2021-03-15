@@ -23,7 +23,7 @@ class BulkImportBooks implements ToModel {
     'quantity' => 'Quantity on library',
     'book_cover' => 'Cover Picture',
     'medias' => 'Media Type',
-    'courses' => 'Courses',
+    'courses' => 'Categories',
     'keywords' => 'Tags',
   ];
     public function model(array $row)

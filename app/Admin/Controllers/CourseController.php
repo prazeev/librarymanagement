@@ -15,7 +15,7 @@ class CourseController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Course';
+    protected $title = 'Categories';
 
     /**
      * Make a grid builder.
@@ -62,7 +62,7 @@ class CourseController extends AdminController
     {
         $form = new Form(new Course());
 
-        $form->text('course', __('Course'))->required();
+        $form->text('course', __('Category'))->required();
         $form->textarea('description', __('Description'))->required();
 
         return $form;

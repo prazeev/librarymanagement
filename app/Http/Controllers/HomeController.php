@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Course;
+use App\Models\MediaType;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -32,8 +34,22 @@ class HomeController extends Controller
           $query->orWhere('author','LIKE','%'.$search.'%');
         });
       }
+      if($request->has('mediatype') && $request->mediatype != '') {
+        $mediatype = trim($request->mediatype);
+        $books->wherehas('medias', function ($q) use ($mediatype) {
+          $q->where('id','=', $mediatype);
+        });
+      }
+      if($request->has('course') && $request->course != '') {
+        $course = trim($request->course);
+        $books->wherehas('courses', function ($q) use ($course) {
+          $q->where('id','=', $course);
+        });
+      }
       $data = [
-        'books' => $books->paginate()
+        'books' => $books->paginate(),
+        'courses' => Course::get()->pluck('course','id'),
+        'mediatype' => MediaType::get()->pluck('title','id'),
       ];
         return view('home')->with($data);
     }
