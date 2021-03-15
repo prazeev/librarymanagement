@@ -33,7 +33,11 @@ class TransactionController extends AdminController
         $grid = new Grid(new Transaction());
         $grid->filter(function ($filter) {
           $filter->disableIdFilter();
-          $filter->like('user.name',__("Student name"));
+          $filter->where(function ($query) {
+            $query->whereHas('user', function ($query) {
+              $query->where('name', 'like', "%{$this->input}%");
+            });
+          }, __('Student name'));
           $filter->where(function ($query) {
             $query->whereHas('books', function ($query) {
               $query->where('title', 'like', "%{$this->input}%")->orWhere('author', 'like', "%{$this->input}%");
