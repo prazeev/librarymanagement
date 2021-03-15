@@ -33,7 +33,7 @@ class TransactionController extends AdminController
         $grid = new Grid(new Transaction());
         $grid->filter(function ($filter) {
           $filter->disableIdFilter();
-          $filter->in('user_id',__('Student'))->select('/'.config('admin.route.prefix').'/api/users');
+          $filter->in('user_id',__('Student'))->select()->ajax('/'.config('admin.route.prefix').'/api/users');
           $filter->where(function ($query) {
             $query->whereHas('books', function ($query) {
               $query->where('title', 'like', "%{$this->input}%")->orWhere('author', 'like', "%{$this->input}%");
