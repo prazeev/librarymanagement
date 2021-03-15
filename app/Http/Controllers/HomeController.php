@@ -32,6 +32,10 @@ class HomeController extends Controller
           $query->orWhere('title','LIKE','%'.$search.'%');
           $query->orWhere('isbn','LIKE','%'.$search.'%');
           $query->orWhere('author','LIKE','%'.$search.'%');
+          $keywords = explode(",", $search);
+          foreach ($keywords as $keyword) {
+            $query->orWhere('keywords','LIKE','%'.$keyword.'%');
+          }
         });
       }
       if($request->has('mediatype') && $request->mediatype != '') {

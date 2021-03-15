@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="search"
-                                           placeholder="Search Books, Author and ISBN"
+                                           placeholder="Search Books, Author, ISBN or keywords"
                                            value="{{request()->search}}">
                                 </div>
                                 <button type="submit" class="btn btn-primary mb-2">Search</button>
